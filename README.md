@@ -22,7 +22,8 @@ Un ejemplo de una entrada valida es la siguiente:
 El manejo de errores aun no se encuentra implementado por lo cual solo se permiten entradas válidas.
 
 ## Ejecución
-Para lanzar la aplicación basta con ubicarse dentro de la carpeta ejecutable y dentro de una consola ingresar el siguiente comando:
+Para lanzar la aplicación basta con ubicarse dentro de la carpeta ejecutable y desde de una consola ingresar el siguiente comando:
 >java -jar VarAssignment3ACGenerator.jar
+
 
 La aplicación va a generar el codigo de tres direcciones correspondiente a las asignaciones que están escritas dentro del archivo "input.txt". Este archivo tiene que estar en la misma carpeta que el ejecutable, de lo contrario lanzará un error la aplicación.
