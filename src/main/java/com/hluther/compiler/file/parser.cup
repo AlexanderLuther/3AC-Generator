@@ -1,0 +1,71 @@
+package com.hluther.compiler.parser;
+
+import com.hluther.compiler.lexer.Lexer;
+import com.hluther.compiler.ast.Instruction;
+import com.hluther.compiler.ast.Operation;
+import com.hluther.compiler.ast.OperationType;
+import com.hluther.compiler.ast.Assignment;
+import com.hluther.compiler.ast.AbstractSyntaxTree;
+import java.util.LinkedList;
+import java_cup.runtime.*;
+
+parser code {:
+    
+    private AbstractSyntaxTree ast = null;
+
+    public Parser(Lexer lexer) { 
+        super(lexer);
+    }
+
+    public AbstractSyntaxTree getAst(){
+        return this.ast;
+    }
+
+    public void syntax_error(java_cup.runtime.Symbol s){
+       // musicInterpreterFrame.addError(new MError(s.left, s.right, ErrorType.SEMANTIC, "No se esperaba el lexema [" +s.value+ "]"));
+    }
+
+    public void unrecovered_syntax_error(java_cup.runtime.Symbol s){
+        //musicInterpreterFrame.addError(new MError(s.left, s.right, ErrorType.SEMANTIC, "No se esperaba el lexema [" +s.value+ "]"));
+    } 
+:}
+
+/* Terminals */
+terminal PLUS, MINUS, ASTERISK, SLASH, PARENTHESISO, PARENTHESISC, EQUAL, SEMICOLON;
+terminal String ID;
+terminal Integer INTEGER;
+
+/* Non-terminals */
+non terminal s;
+non terminal LinkedList<Instruction> assignment;
+non terminal Instruction arithmetic_value, arithmetic_op, arithmetic_exp1, arithmetic_exp2;
+             
+/* The grammar */
+start with s;
+
+s::=    assignment:list {: ast = new AbstractSyntaxTree(list); :}
+        ;
+
+assignment::=           assignment:list ID:id EQUAL arithmetic_op:value SEMICOLON       {: RESULT = list; list.add(new Assignment(id, value)); :}
+                        | ID:id EQUAL arithmetic_op:value SEMICOLON                     {: RESULT = new LinkedList<Instruction>(); RESULT.add(new Assignment(id, value)); :}
+                        ;
+
+arithmetic_op::=        arithmetic_op:value1 PLUS arithmetic_exp1:value2                {: RESULT = new Operation(value1, value2, OperationType.SUM); :}
+                        | arithmetic_op:value1 MINUS arithmetic_exp1:value2             {: RESULT = new Operation(value1, value2, OperationType.SUBTRACTION); :}
+                        | arithmetic_exp1:value                                         {: RESULT = value; :}
+                        ;    
+
+arithmetic_exp1::=      arithmetic_exp1:value1 ASTERISK arithmetic_exp2:value2      {: RESULT = new Operation(value1, value2, OperationType.MULTIPLICATION); :}
+                        | arithmetic_exp1:value1 SLASH arithmetic_exp2:value2       {: RESULT = new Operation(value1, value2, OperationType.DIVISION); :}   
+                        | arithmetic_exp2:value                                     {: RESULT = value; :}                     
+                        ;
+
+arithmetic_exp2::=      PLUS arithmetic_value:value                       {: RESULT = new Operation(value, OperationType.PLUS); :}             
+                        | MINUS arithmetic_value:value                    {: RESULT = new Operation(value, OperationType.MINUS); :}
+                        | arithmetic_value:value                          {: RESULT = value; :}
+                        ;
+                        
+arithmetic_value::=     PARENTHESISO arithmetic_op:value PARENTHESISC     {: RESULT = value; :}        
+                        | INTEGER:value                                   {: RESULT = new Operation(value); :}
+                        | ID:value                                        {: RESULT = new Operation(value); :}
+                        ;

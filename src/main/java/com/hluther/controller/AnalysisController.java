@@ -1,7 +1,7 @@
 package com.hluther.controller;
 
-import com.hluther.interpreter.lexer.Lexer;
-import com.hluther.interpreter.parser.Parser;
+import com.hluther.compiler.lexer.Lexer;
+import com.hluther.compiler.parser.Parser;
 import java.io.StringReader;
 /**
  *
@@ -18,8 +18,9 @@ public class AnalysisController {
             parser = new Parser(lexer);
             
             parser.parse();
+            parser.getAst().generate3AC(null, -1);
         } catch (Exception ex) {
-            System.out.println("Error analizando");
+            System.out.println("Error analizando" + ex.getMessage());
         }
     }
 }
