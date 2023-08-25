@@ -12,9 +12,11 @@ En donde:
 
 Un ejemplo de una entrada valida es la siguiente:
 >x = 12 * (id1 * 12) + 10;
->
+
 >y = 100 - (-id1 + 12) + 10;
+
 >z = (100 + 2 * (-9 + 1) + id) * id;
+
 >w = -1;
 
 El manejo de errores aun no se encuentra implementado por lo cual solo se permiten entradas válidas.
