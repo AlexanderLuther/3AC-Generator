@@ -5,7 +5,8 @@ Dentro del archivo "input.txt" se ingresan las asignaciones sobre las cuales se 
 ><*id*> = <operación matemática> ;
 
 En donde:
-**id**, puede se cualquier palabra que inicia con una letra ente a-z o A-Z seguida de n números entre 0-9 y/o letras entre a-z o A-Z
+**id**, puede se cualquier palabra que inicia con una letra ente a-z o A-Z seguida de n números entre 0-9 y/o letras entre a-z o A-Z.
+
 **operación matemática**,  puede ser cualquier operación de suma, resta, multiplicacion o division, permitiendo agrupación haciendo uso de paréntesis.
 
 Un ejemplo de una entrada valida es la siguiente:
